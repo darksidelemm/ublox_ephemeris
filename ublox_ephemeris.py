@@ -50,12 +50,14 @@ def generate_ephemeris_block(ephem):
     from a pyUblox EphemerisData object
     Reference: ftp://igs.org/pub/data/format/rinex210.txt Table A4
     '''
+    # TODO: Calculate Ephemeris Epoch Time from toc data.
     output = "%2d %2d %2d %2d %2d %2d%5.1f%19.12E%19.12E%19.12E\n" % (ephem.svid, 0,0,0,0,0,0, ephem.af0, ephem.af1, ephem.af2)  # TODO - Decipher SV Epoch time.
     output += "   %19.12E%19.12E%19.12E%19.12E\n" % (ephem.iode, ephem.crs, ephem.deltaN, ephem.M0)
     output += "   %19.12E%19.12E%19.12E%19.12E\n" % (ephem.cuc, ephem.ecc, ephem.cus, math.sqrt(ephem.A))
     output += "   %19.12E%19.12E%19.12E%19.12E\n" % (ephem.toe, ephem.cic, ephem.omega0, ephem.cis)
     output += "   %19.12E%19.12E%19.12E%19.12E\n" % (ephem.i0, ephem.crc, ephem.omega, ephem.omega_dot)
     output += "   %19.12E%19.12E%19.12E%19.12E\n" % (ephem.idot, ephem.code_on_l2, ephem.week_no, ephem.l2_p_flag)
+    # TODO: Check sv_health field is OK.
     output += "   %19.12E%19.12E%19.12E%19.12E\n" % (ephem.sv_ura, ephem.sv_health, ephem.Tgd, ephem.iodc)
     # TODO: Calculate message transmission time from hand-over word. (First element below)
     output += "   %19.12E%19.12E%19.12E%19.12E\n" % (0, 0, 0, 0)
