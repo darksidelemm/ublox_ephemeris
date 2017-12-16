@@ -36,11 +36,11 @@ class EphemerisData:
             self.valid = False
             return
 
-        week_no    = self.GET_FIELD_U(msg.sf1d[0], 10, 14)
-        code_on_l2 = self.GET_FIELD_U(msg.sf1d[0],  2, 12)
+        self.week_no    = self.GET_FIELD_U(msg.sf1d[0], 10, 14)
+        self.code_on_l2 = self.GET_FIELD_U(msg.sf1d[0],  2, 12)
         sv_ura     = self.GET_FIELD_U(msg.sf1d[0],  4,  8)
-        sv_health  = self.GET_FIELD_U(msg.sf1d[0],  6,  2)
-        l2_p_flag  = self.GET_FIELD_U(msg.sf1d[1],  1, 23)
+        self.sv_health  = self.GET_FIELD_U(msg.sf1d[0],  6,  2)
+        self.l2_p_flag  = self.GET_FIELD_U(msg.sf1d[1],  1, 23)
         t_gd       = self.GET_FIELD_S(msg.sf1d[4],  8,  0)
         iodc       = (self.GET_FIELD_U(msg.sf1d[0],  2,  0) << 8) | self.GET_FIELD_U(msg.sf1d[5],  8, 16)
 
@@ -102,11 +102,20 @@ class EphemerisData:
         self.af1 = a_f1 * pow(2, -43)
         self.af2 = a_f2 * pow(2, -55)
 
+        # Calculate SV Accuracy - Refer Page 91 of IS-GPS-200H
+        if sv_ura <= 6:
+            self.sv_ura = 2**(1+sv_ura/2.0)
+        elif sv_ura >6 and sv_ura < 15:
+            self.sv_ura = 2**(N-2.0)
+        else:
+            self.sv_ura = 6144.00
+
 
         iode1           = self.GET_FIELD_U(msg.sf2d[0],  8, 16)
         iode2           = self.GET_FIELD_U(msg.sf3d[7],  8, 16)
         self.valid = (iode1 == iode2) and (iode1 == (iodc & 0xff))
         self.iode = iode1
+        self.iodc = iodc
 
     def __eq__(self, other):
         '''allow for equality testing

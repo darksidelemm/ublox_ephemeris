@@ -7,6 +7,7 @@ A lot of this repository is borrowed from tridge's [pyUblox](https://github.com/
 
 Usage:
 ```
-$ python ublox_ephemeris.py -p /dev/ttyUSB0 -d 115200 -o ephemeris.dat
+$ python ublox_ephemeris.py -p /dev/ttyUSB0 -b 115200 -o ephemeris.dat
 ```
 
+NOTE: This is still a work-in-progress, and the RINEX output is currently un-usable due to missing fields.

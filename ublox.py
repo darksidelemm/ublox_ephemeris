@@ -764,7 +764,7 @@ class UBlox:
     def set_binary(self):
 	'''put a UBlox into binary mode using a NMEA string'''
         if not self.read_only:
-            print("try set binary at %u" % self.baudrate)
+            #print("try set binary at %u" % self.baudrate)
             self.send_nmea("$PUBX,41,0,0007,0001,%u,0" % self.baudrate)
             self.send_nmea("$PUBX,41,1,0007,0001,%u,0" % self.baudrate)
             self.send_nmea("$PUBX,41,2,0007,0001,%u,0" % self.baudrate)
